@@ -41,4 +41,4 @@ function updateMessages() {
 
   getMessages(getMessagesCallback);
 }
-window.setInterval(updateMessages, 250);
+window.setInterval(updateMessages, 50);
