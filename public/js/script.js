@@ -4,6 +4,9 @@ var messagesRoute = host + '/messages';
 
 function sendMessage (user, content, callback) {
   $.post(sendRoute, {user: user, content: content})
+  .fail(function(data, errorMessage) {
+    alert(data.reponseText);
+  })
   .done(callback);
 }
 
