@@ -28,17 +28,32 @@ var server = app.listen(cfg.port, cfg.hostname, function () {
 
 var messages = [];
 
-
 /* API Routes */
 
 app.post('/send', function (req, res) {
   var user = req.body.user;
   var content = req.body.content;
   var timestamp = Date.now();
+  user = user.substring(0, 30);
+  
+  content = content.substring(0, 49);
+  content = escape(content);
+  
+  if(messages.length >= 1){ 
+    var lastMessage = messages[messages.length -1];
+    if(content === lastMessage.content) {
+      res.send('error');
+      return;
+    }
+  }
+  var object = {user : user, content : content, timestamp : timestamp};
+  messages.push(object);
 
-  // TODO: Save message
-
-  res.send('ok');
+  if(messages.length > 10) {
+    messages.shift();
+  }
+  content.substring(0, 49);
+  res.send("ok");
 });
 
 app.get('/messages', function (req, res) {
