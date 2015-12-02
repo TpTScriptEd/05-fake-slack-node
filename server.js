@@ -35,9 +35,29 @@ app.post('/send', function (req, res) {
   var user = req.body.user;
   var content = req.body.content;
   var timestamp = Date.now();
-
   // TODO: Save message
-
+  if(messages.length != 0)
+  {
+    var prevMessage = messages[messages.length - 1];
+    if(prevMessage.user == user && prevMessage.content == content)
+    {
+      res.send("Error!");
+      return;
+    }
+  }
+  
+  var message = 
+  {
+    user: user.substring(0,16),
+    content: content.substring(0,50),
+    timestamp: timestamp
+  };
+  
+  if(messages.length >= 20)
+  {
+    messages.shift();
+  }
+  messages.push(message);
   res.send('ok');
 });
 
